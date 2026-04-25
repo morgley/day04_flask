@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import sqlite3
 from datetime import datetime
 from pathlib import Path
@@ -58,8 +59,8 @@ def init_db_command() -> None:
 def create_app(test_config: dict | None = None) -> Flask:
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY="dev",
-        DATABASE=str(Path(app.instance_path) / "board.db"),
+        SECRET_KEY=os.environ.get("SECRET_KEY", "dev"),
+        DATABASE=os.environ.get("DATABASE", str(Path(app.instance_path) / "board.db")),
     )
 
     if test_config is not None:
