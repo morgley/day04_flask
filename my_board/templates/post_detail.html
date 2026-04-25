@@ -5,6 +5,12 @@
   <p class="meta">{{ post.created_at }}</p>
   <h1>{{ post.title }}</h1>
   <div class="body">{{ post.content }}</div>
+  <div class="detail-actions">
+    <a class="button-secondary" href="{{ url_for('post_edit', post_id=post.id) }}">수정</a>
+    <form method="post" action="{{ url_for('post_delete', post_id=post.id) }}" onsubmit="return confirm('정말 삭제할까요?')">
+      <button class="button-danger" type="submit">삭제</button>
+    </form>
+  </div>
   <p><a class="text-link" href="{{ url_for('post_list') }}">Back to List</a></p>
 </article>
 {% endblock %}

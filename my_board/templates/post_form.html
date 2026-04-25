@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
-{% block title %}Write Post{% endblock %}
+{% block title %}{% if mode == 'edit' %}Edit Post{% else %}Write Post{% endif %}{% endblock %}
 {% block content %}
 <section class="write-layout">
   <header class="write-head">
-    <h1>Write</h1>
-    <p>새 게시글을 작성하세요.</p>
+    <h1>Structured Editor</h1>
+    <p>{% if mode == 'edit' %}게시글을 수정하세요.{% else %}새 게시글을 작성하세요.{% endif %}</p>
   </header>
-  <form class="write-form" method="post" action="{{ url_for('post_create') }}">
+  <form class="write-form" method="post" action="{{ form_action }}">
     <label for="title">Title</label>
     <input id="title" name="title" type="text" value="{{ form.title }}" placeholder="Entry Title" required />
 
@@ -14,7 +14,7 @@
     <textarea id="content" name="content" rows="14" placeholder="Start your narrative..." required>{{ form.content }}</textarea>
 
     <div class="actions">
-      <button type="submit">Publish</button>
+      <button type="submit">{% if mode == 'edit' %}Update{% else %}Publish{% endif %}</button>
     </div>
   </form>
 </section>

@@ -79,7 +79,13 @@ def create_app(test_config: dict | None = None) -> Flask:
 
     @app.get("/posts/new")
     def post_new():
-        return render_template("post_form.html", form={"title": "", "content": ""})
+        return render_template(
+            "post_form.html",
+            mode="create",
+            post=None,
+            form={"title": "", "content": ""},
+            form_action=url_for("post_create"),
+        )
 
     @app.post("/posts")
     def post_create():
@@ -90,18 +96,84 @@ def create_app(test_config: dict | None = None) -> Flask:
         if not title or not content:
             flash("제목과 본문을 입력해주세요.")
             return (
-                render_template("post_form.html", form={"title": title, "content": content}),
+                render_template(
+                    "post_form.html",
+                    mode="create",
+                    post=None,
+                    form={"title": title, "content": content},
+                    form_action=url_for("post_create"),
+                ),
+                400,
+            )
+
+        db = get_db()
+        cursor = db.execute(
+            "INSERT INTO posts (title, content, created_at) VALUES (?, ?, ?)",
+            (title, content, datetime.now().strftime("%Y-%m-%d %H:%M:%S")),
+        )
+        db.commit()
+        post_id = cursor.lastrowid
+        return redirect(url_for("post_detail", post_id=post_id))
+
+    @app.get("/posts/<int:post_id>/edit")
+    def post_edit(post_id: int):
+        init_db()
+        post = get_db().execute(
+            "SELECT id, title, content, created_at FROM posts WHERE id = ?",
+            (post_id,),
+        ).fetchone()
+        if post is None:
+            abort(404)
+        return render_template(
+            "post_form.html",
+            mode="edit",
+            post=post,
+            form={"title": post["title"], "content": post["content"]},
+            form_action=url_for("post_update", post_id=post_id),
+        )
+
+    @app.post("/posts/<int:post_id>/edit")
+    def post_update(post_id: int):
+        init_db()
+        post = get_db().execute("SELECT id FROM posts WHERE id = ?", (post_id,)).fetchone()
+        if post is None:
+            abort(404)
+
+        title = request.form.get("title", "").strip()
+        content = request.form.get("content", "").strip()
+
+        if not title or not content:
+            flash("제목과 본문을 입력해주세요.")
+            return (
+                render_template(
+                    "post_form.html",
+                    mode="edit",
+                    post={"id": post_id},
+                    form={"title": title, "content": content},
+                    form_action=url_for("post_update", post_id=post_id),
+                ),
                 400,
             )
 
         db = get_db()
         db.execute(
-            "INSERT INTO posts (title, content, created_at) VALUES (?, ?, ?)",
-            (title, content, datetime.now().strftime("%Y-%m-%d %H:%M:%S")),
+            "UPDATE posts SET title = ?, content = ? WHERE id = ?",
+            (title, content, post_id),
         )
         db.commit()
-        post_id = db.execute("SELECT id FROM posts ORDER BY id DESC LIMIT 1").fetchone()["id"]
         return redirect(url_for("post_detail", post_id=post_id))
+
+    @app.post("/posts/<int:post_id>/delete")
+    def post_delete(post_id: int):
+        init_db()
+        db = get_db()
+        post = db.execute("SELECT id FROM posts WHERE id = ?", (post_id,)).fetchone()
+        if post is None:
+            abort(404)
+
+        db.execute("DELETE FROM posts WHERE id = ?", (post_id,))
+        db.commit()
+        return redirect(url_for("post_list"))
 
     @app.get("/posts/<int:post_id>")
     def post_detail(post_id: int):
@@ -115,7 +187,6 @@ def create_app(test_config: dict | None = None) -> Flask:
         return render_template("post_detail.html", post=post)
 
     return app
-
 
 if __name__ == "__main__":
     app = create_app()
