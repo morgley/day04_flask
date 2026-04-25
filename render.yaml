@@ -3,8 +3,8 @@ services:
     name: flask-board
     env: python
     plan: free
-    buildCommand: cd my_board && pip install -r requirements.txt
-    startCommand: cd my_board && gunicorn "app:create_app()" --bind 0.0.0.0:$PORT
+    buildCommand: pip install -r my_board/requirements.txt
+    startCommand: gunicorn --chdir my_board "app:create_app()" --bind 0.0.0.0:$PORT
     envVars:
       - key: SECRET_KEY
         sync: false
