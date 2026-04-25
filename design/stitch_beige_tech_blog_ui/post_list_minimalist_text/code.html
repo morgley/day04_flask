@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&amp;family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&amp;family=Work+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#474747",
+                    "surface-bright": "#fafaef",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#2f312a",
+                    "on-background": "#1a1c16",
+                    "inverse-primary": "#c8c6c6",
+                    "on-surface-variant": "#444748",
+                    "primary-fixed-dim": "#c8c6c6",
+                    "on-secondary-container": "#636451",
+                    "surface-tint": "#5f5e5e",
+                    "primary-fixed": "#e4e2e1",
+                    "primary-container": "#2d2d2d",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-container": "#1f2f3b",
+                    "inverse-on-surface": "#f1f1e6",
+                    "on-secondary-fixed": "#1b1d0e",
+                    "tertiary-fixed": "#d3e5f4",
+                    "primary": "#181919",
+                    "on-primary": "#ffffff",
+                    "surface-dim": "#dadbd0",
+                    "outline-variant": "#c4c7c7",
+                    "surface": "#fafaef",
+                    "on-secondary-fixed-variant": "#474836",
+                    "surface-container-high": "#e9e9de",
+                    "outline": "#747878",
+                    "surface-container-highest": "#e3e3d8",
+                    "on-tertiary-fixed": "#0c1d28",
+                    "on-primary-fixed": "#1b1c1c",
+                    "surface-variant": "#e3e3d8",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-container": "#8697a5",
+                    "secondary-fixed": "#e4e4cc",
+                    "secondary": "#5e604d",
+                    "background": "#fafaef",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed-dim": "#c8c8b0",
+                    "error": "#ba1a1a",
+                    "on-primary-container": "#959494",
+                    "tertiary": "#091a25",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#efeee3",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#b7c9d8",
+                    "surface-container-low": "#f4f4e9",
+                    "secondary-container": "#e1e1c9",
+                    "on-tertiary-fixed-variant": "#384955",
+                    "on-surface": "#1a1c16"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "stack-sm": "12px",
+                    "base": "8px",
+                    "section-gap": "80px",
+                    "container-max": "800px",
+                    "stack-md": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Manrope"],
+                    "headline-xl": ["Manrope"],
+                    "body-md": ["Newsreader"],
+                    "headline-md": ["Manrope"],
+                    "label-md": ["Work Sans"],
+                    "body-lg": ["Newsreader"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-lg": ["20px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #fafaef;
+            color: #1a1c16;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased">
+<!-- TopAppBar -->
+<header class="bg-[#F5F5DC] dark:bg-stone-950 border-b border-[#D1D1C2] dark:border-stone-800 sticky top-0 z-50">
+<div class="flex justify-between items-center h-16 w-full px-6 lg:px-12 max-w-[1440px] mx-auto">
+<div class="flex items-center gap-8">
+<a class="text-xl font-black text-[#2D2D2D] dark:text-stone-50 tracking-tighter uppercase" href="#">Linen &amp; Logic</a>
+<nav class="hidden md:flex gap-6">
+<a class="font-['Manrope'] uppercase tracking-widest text-xs font-bold text-[#2D2D2D]/60 dark:text-stone-400 hover:text-[#2D2D2D] dark:hover:text-white transition-colors duration-200" href="#">Essays</a>
+<a class="font-['Manrope'] uppercase tracking-widest text-xs font-bold text-[#2D2D2D] dark:text-white border-b-2 border-[#2D2D2D] dark:border-white pb-1" href="#">Guides</a>
+<a class="font-['Manrope'] uppercase tracking-widest text-xs font-bold text-[#2D2D2D]/60 dark:text-stone-400 hover:text-[#2D2D2D] dark:hover:text-white transition-colors duration-200" href="#">Reviews</a>
+<a class="font-['Manrope'] uppercase tracking-widest text-xs font-bold text-[#2D2D2D]/60 dark:text-stone-400 hover:text-[#2D2D2D] dark:hover:text-white transition-colors duration-200" href="#">Archive</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#2D2D2D] dark:text-stone-100 p-2 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 rounded-full transition-colors" data-icon="search">search</button>
+<button class="bg-[#2D2D2D] text-[#F5F5DC] font-['Manrope'] uppercase tracking-widest text-xs font-bold py-2 px-6 hover:opacity-90 active:scale-95 duration-150 ease-in-out transition-all">
+                    Subscribe
+                </button>
+</div>
+</div>
+</header>
+<div class="max-w-[1440px] mx-auto flex">
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col py-8 px-4 gap-4 bg-[#EBEBE0] dark:bg-stone-900 h-[calc(100vh-64px)] w-64 border-r border-[#D1D1C2] dark:border-stone-800 sticky top-16">
+<div class="px-4 mb-6">
+<h2 class="text-lg font-bold text-[#2D2D2D] font-['Manrope']">Topics</h2>
+<p class="text-xs font-medium text-[#2D2D2D]/60 uppercase tracking-widest">Deep Dives</p>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 py-3 px-4 transition-all duration-200 bg-[#D1D1C2] dark:bg-stone-800 text-[#2D2D2D] dark:text-white font-bold rounded-sm font-['Manrope'] text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="architecture">architecture</span>
+                    Architecture
+                </a>
+<a class="flex items-center gap-3 py-3 px-4 transition-all duration-200 text-[#2D2D2D]/70 dark:text-stone-400 hover:bg-[#D1D1C2]/50 dark:hover:bg-stone-800/50 font-['Manrope'] text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="code">code</span>
+                    Frontend
+                </a>
+<a class="flex items-center gap-3 py-3 px-4 transition-all duration-200 text-[#2D2D2D]/70 dark:text-stone-400 hover:bg-[#D1D1C2]/50 dark:hover:bg-stone-800/50 font-['Manrope'] text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+                    Philosophy
+                </a>
+<a class="flex items-center gap-3 py-3 px-4 transition-all duration-200 text-[#2D2D2D]/70 dark:text-stone-400 hover:bg-[#D1D1C2]/50 dark:hover:bg-stone-800/50 font-['Manrope'] text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="settings_input_component">settings_input_component</span>
+                    DevOps
+                </a>
+<a class="flex items-center gap-3 py-3 px-4 transition-all duration-200 text-[#2D2D2D]/70 dark:text-stone-400 hover:bg-[#D1D1C2]/50 dark:hover:bg-stone-800/50 font-['Manrope'] text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+                    Security
+                </a>
+</nav>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 min-h-screen bg-surface">
+<!-- Hero / Header Section -->
+<section class="max-w-[800px] mx-auto pt-20 pb-12 px-6 lg:px-0">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#D1D1C2] pb-12">
+<div class="flex-1">
+<span class="font-label-md text-label-md text-primary/60 uppercase mb-4 block">Archive &amp; Essays</span>
+<h1 class="font-headline-xl text-headline-xl text-primary max-w-2xl">Reflections on Architecture and Intentional Design.</h1>
+</div>
+<div class="pb-1">
+<button class="inline-flex items-center gap-2 bg-[#2D2D2D] text-[#F5F5DC] font-['Manrope'] uppercase tracking-widest text-xs font-bold py-4 px-8 hover:bg-[#1a1a1a] transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+                            Start Writing
+                        </button>
+</div>
+</div>
+</section>
+<!-- Minimal Article List -->
+<section class="max-w-[800px] mx-auto px-6 lg:px-0 flex flex-col gap-20 py-12">
+<!-- Article Item 1 -->
+<article class="group cursor-pointer">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-4">
+<span class="font-label-md text-label-md text-secondary tracking-widest uppercase">October 12, 2023</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-md text-label-md text-secondary uppercase">Systems</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary group-hover:text-primary-container transition-colors">The Fragility of Monoliths: Lessons from Modern Infrastructure</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">Exploring why centralizing complexity leads to catastrophic failure modes and how a distributed philosophy can restore resilience to digital systems.</p>
+<div class="mt-2">
+<a class="font-label-md text-label-md text-primary font-bold border-b-2 border-primary pb-0.5 hover:border-transparent transition-all" href="#">Read Essay</a>
+</div>
+</div>
+</article>
+<!-- Article Item 2 -->
+<article class="group cursor-pointer">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-4">
+<span class="font-label-md text-label-md text-secondary tracking-widest uppercase">September 28, 2023</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-md text-label-md text-secondary uppercase">Philosophy</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary group-hover:text-primary-container transition-colors">Digital Minimalism for Technical Minds</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">How pruning your toolset leads to sharper thinking. A deep dive into the 'less but better' approach applied to software development environments.</p>
+<div class="mt-2">
+<a class="font-label-md text-label-md text-primary font-bold border-b-2 border-primary pb-0.5 hover:border-transparent transition-all" href="#">Read Essay</a>
+</div>
+</div>
+</article>
+<!-- Article Item 3 -->
+<article class="group cursor-pointer">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-4">
+<span class="font-label-md text-label-md text-secondary tracking-widest uppercase">August 15, 2023</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-md text-label-md text-secondary uppercase">Architecture</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary group-hover:text-primary-container transition-colors">On the Aesthetics of Clean Code</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">Beyond functionality, code possesses a structural beauty. We examine the intersection of mathematical elegance and practical maintainability.</p>
+<div class="mt-2">
+<a class="font-label-md text-label-md text-primary font-bold border-b-2 border-primary pb-0.5 hover:border-transparent transition-all" href="#">Read Essay</a>
+</div>
+</div>
+</article>
+<!-- Article Item 4 -->
+<article class="group cursor-pointer">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-4">
+<span class="font-label-md text-label-md text-secondary tracking-widest uppercase">July 04, 2023</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-md text-label-md text-secondary uppercase">Front-end</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary group-hover:text-primary-container transition-colors">The Newsreader Aesthetic: Why Serif Fonts are Making a Comeback</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">As the web matures, designers are looking back to print for cues on legibility and warmth. A technical analysis of variable serif fonts.</p>
+<div class="mt-2">
+<a class="font-label-md text-label-md text-primary font-bold border-b-2 border-primary pb-0.5 hover:border-transparent transition-all" href="#">Read Essay</a>
+</div>
+</div>
+</article>
+<!-- Load More / Pagination -->
+<nav class="flex items-center justify-between border-t border-[#D1D1C2] pt-12 mt-8">
+<a class="font-label-md text-label-md text-primary/40 hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+                        Previous
+                    </a>
+<div class="flex gap-4">
+<span class="font-label-md text-label-md text-primary font-bold underline underline-offset-4">1</span>
+<a class="font-label-md text-label-md text-primary/60 hover:text-primary" href="#">2</a>
+<a class="font-label-md text-label-md text-primary/60 hover:text-primary" href="#">3</a>
+</div>
+<a class="font-label-md text-label-md text-primary hover:text-primary-container transition-colors flex items-center gap-2" href="#">
+                        Next
+                        <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</nav>
+</section>
+<!-- Newsletter Signup -->
+<section class="bg-[#EBEBE0] py-24 mt-20 px-6">
+<div class="max-w-[800px] mx-auto text-center">
+<h3 class="font-headline-lg text-headline-lg mb-4">The Logic Weekly</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-md mx-auto">Thoughtful analysis on technology and design delivered to your inbox every Sunday.</p>
+<form class="flex flex-col md:flex-row gap-4 max-w-lg mx-auto">
+<input class="flex-1 bg-transparent border-b border-[#2D2D2D] py-3 px-1 focus:outline-none focus:border-on-tertiary-container font-body-md text-lg placeholder:text-[#2D2D2D]/30 transition-colors" placeholder="email@example.com" type="email"/>
+<button class="bg-[#2D2D2D] text-[#F5F5DC] font-['Manrope'] uppercase tracking-widest text-xs font-bold py-4 px-10 hover:opacity-90 transition-all" type="submit">Join</button>
+</form>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full border-t border-[#D1D1C2] dark:border-stone-800 bg-[#F5F5DC] dark:bg-stone-950 mt-auto">
+<div class="w-full py-12 px-6 lg:px-12 flex flex-col md:flex-row justify-between items-center max-w-[800px] mx-auto">
+<div class="flex flex-col items-center md:items-start gap-2 mb-8 md:mb-0">
+<span class="font-bold text-[#2D2D2D] font-['Manrope']">Linen &amp; Logic</span>
+<p class="font-['Manrope'] text-xs tracking-tight text-[#2D2D2D]/50 dark:text-stone-500">© 2024 Linen &amp; Logic. Built for deep reading.</p>
+</div>
+<nav class="flex gap-6">
+<a class="font-['Manrope'] text-xs tracking-tight text-[#2D2D2D]/50 dark:text-stone-500 hover:text-[#2D2D2D] dark:hover:text-stone-200 transition-colors opacity-80 hover:opacity-100" href="#">Privacy</a>
+<a class="font-['Manrope'] text-xs tracking-tight text-[#2D2D2D]/50 dark:text-stone-500 hover:text-[#2D2D2D] dark:hover:text-stone-200 transition-colors opacity-80 hover:opacity-100" href="#">Terms</a>
+<a class="font-['Manrope'] text-xs tracking-tight text-[#2D2D2D]/50 dark:text-stone-500 hover:text-[#2D2D2D] dark:hover:text-stone-200 transition-colors opacity-80 hover:opacity-100" href="#">RSS Feed</a>
+<a class="font-['Manrope'] text-xs tracking-tight text-[#2D2D2D]/50 dark:text-stone-500 hover:text-[#2D2D2D] dark:hover:text-stone-200 transition-colors opacity-80 hover:opacity-100 underline font-semibold" href="#">Contact</a>
+</nav>
+</div>
+</footer>
+</main>
+</div>
+</body></html>
