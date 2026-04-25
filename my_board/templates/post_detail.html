@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+<article class="post-detail">
+  <p class="meta">{{ post.created_at }}</p>
+  <h1>{{ post.title }}</h1>
+  <div class="body">{{ post.content }}</div>
+  <p><a class="text-link" href="{{ url_for('post_list') }}">Back to List</a></p>
+</article>
+{% endblock %}

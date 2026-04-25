@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}게시글 목록{% endblock %}
+{% block content %}
+<section class="page-head">
+  <h1>Reflections on Architecture and Intentional Design.</h1>
+</section>
+<section class="post-list">
+  {% for post in posts %}
+    <article class="post-item">
+      <p class="meta">{{ post.created_at }}</p>
+      <h2><a href="{{ url_for('post_detail', post_id=post.id) }}">{{ post.title }}</a></h2>
+      <p>{{ post.content[:180] }}{% if post.content|length > 180 %}...{% endif %}</p>
+    </article>
+  {% else %}
+    <p>아직 게시글이 없습니다.</p>
+  {% endfor %}
+</section>
+{% endblock %}

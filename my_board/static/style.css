@@ -1,0 +1,179 @@
+:root {
+  --bg: #fafaef;
+  --surface: #ebebe0;
+  --text: #2d2d2d;
+  --muted: #6a6a5a;
+  --line: #d1d1c2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Newsreader", serif;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  border-bottom: 1px solid var(--line);
+  background: #f5f5dc;
+}
+
+.topbar-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.brand {
+  color: var(--text);
+  text-decoration: none;
+  font-family: "Manrope", sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.nav a {
+  margin-left: 16px;
+  text-decoration: none;
+  color: var(--muted);
+  font-family: "Work Sans", sans-serif;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px 80px;
+}
+
+.page-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 24px;
+}
+
+.page-head h1 {
+  font-family: "Manrope", sans-serif;
+  margin: 0;
+}
+
+.post-list {
+  margin-top: 28px;
+  display: grid;
+  gap: 28px;
+}
+
+.post-item {
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.meta {
+  color: var(--muted);
+  font-family: "Work Sans", sans-serif;
+  font-size: 13px;
+}
+
+.post-item h2 {
+  margin: 6px 0 10px;
+  font-family: "Manrope", sans-serif;
+}
+
+.post-item a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.post-detail h1 {
+  font-family: "Manrope", sans-serif;
+  margin: 6px 0 20px;
+}
+
+.post-detail .body {
+  white-space: pre-wrap;
+  line-height: 1.75;
+}
+
+.text-link {
+  color: var(--text);
+  font-family: "Work Sans", sans-serif;
+}
+
+.flash-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+}
+
+.flash-item {
+  border: 1px solid #ba1a1a;
+  background: #ffdad6;
+  color: #93000a;
+  padding: 10px 12px;
+  font-family: "Work Sans", sans-serif;
+  font-size: 14px;
+}
+
+.write-layout {
+  max-width: 800px;
+}
+
+.write-head h1 {
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+}
+
+.write-head p {
+  margin-top: 8px;
+  color: var(--muted);
+}
+
+.write-form {
+  margin-top: 20px;
+  display: grid;
+  gap: 10px;
+}
+
+.write-form label {
+  font-family: "Work Sans", sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.write-form input,
+.write-form textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: #fff;
+  padding: 12px;
+  font: inherit;
+}
+
+.actions {
+  margin-top: 8px;
+}
+
+.actions button {
+  border: none;
+  background: var(--text);
+  color: #f5f5dc;
+  padding: 11px 16px;
+  font-family: "Work Sans", sans-serif;
+  text-transform: uppercase;
+  font-size: 12px;
+}

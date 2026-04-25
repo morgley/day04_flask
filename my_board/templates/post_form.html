@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Write Post{% endblock %}
+{% block content %}
+<section class="write-layout">
+  <header class="write-head">
+    <h1>Write</h1>
+    <p>새 게시글을 작성하세요.</p>
+  </header>
+  <form class="write-form" method="post" action="{{ url_for('post_create') }}">
+    <label for="title">Title</label>
+    <input id="title" name="title" type="text" value="{{ form.title }}" placeholder="Entry Title" required />
+
+    <label for="content">Content</label>
+    <textarea id="content" name="content" rows="14" placeholder="Start your narrative..." required>{{ form.content }}</textarea>
+
+    <div class="actions">
+      <button type="submit">Publish</button>
+    </div>
+  </form>
+</section>
+{% endblock %}
