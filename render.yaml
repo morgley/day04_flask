@@ -2,10 +2,9 @@ services:
   - type: web
     name: flask-board
     env: python
-    rootDir: my_board
     plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn "app:create_app()" --bind 0.0.0.0:$PORT
+    buildCommand: cd my_board && pip install -r requirements.txt
+    startCommand: cd my_board && gunicorn "app:create_app()" --bind 0.0.0.0:$PORT
     envVars:
       - key: SECRET_KEY
         sync: false
