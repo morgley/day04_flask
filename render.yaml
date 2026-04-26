@@ -8,11 +8,9 @@ services:
     envVars:
       - key: SECRET_KEY
         sync: false
-      - key: DATABASE
-        value: /var/data/board.db
+      - key: TURSO_DATABASE_URL
+        sync: false
+      - key: TURSO_AUTH_TOKEN
+        sync: false
       - key: PYTHON_VERSION
         value: 3.12.3
-    disk:
-      name: flask-board-data
-      mountPath: /var/data
-      sizeGB: 1

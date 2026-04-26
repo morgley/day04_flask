@@ -8,6 +8,16 @@
   </div>
   <a class="button-primary" href="{{ url_for('post_new') }}">Start Writing</a>
 </section>
+<form class="list-toolbar" method="get" action="{{ url_for('post_list') }}">
+  <input type="text" name="q" value="{{ q }}" placeholder="검색어 입력" />
+  <select name="sort" onchange="this.form.page.value='1'; this.form.submit();">
+    <option value="latest" {% if sort == 'latest' %}selected{% endif %}>최신순</option>
+    <option value="oldest" {% if sort == 'oldest' %}selected{% endif %}>오래된순</option>
+    <option value="title" {% if sort == 'title' %}selected{% endif %}>제목순 (가나다)</option>
+  </select>
+  <input type="hidden" name="page" value="1" />
+  <button type="submit">검색</button>
+</form>
 <section class="post-list">
   {% for post in posts %}
     <article class="post-item">
@@ -17,7 +27,26 @@
       <a class="read-link" href="{{ url_for('post_detail', post_id=post.id) }}">Read Essay</a>
     </article>
   {% else %}
-    <p>아직 게시글이 없습니다.</p>
+    {% if no_results %}
+      <p>검색 결과가 없습니다</p>
+    {% else %}
+      <p>아직 게시글이 없습니다.</p>
+    {% endif %}
   {% endfor %}
 </section>
+<nav class="pager" aria-label="게시글 페이지네이션">
+  {% if has_prev %}
+    <a class="pager-link" href="{{ url_for('post_list', q=q, sort=sort, page=prev_page) }}">[이전]</a>
+  {% else %}
+    <span class="pager-link is-disabled">[이전]</span>
+  {% endif %}
+
+  <span class="pager-status">{{ page }} / {{ total_pages }}</span>
+
+  {% if has_next %}
+    <a class="pager-link" href="{{ url_for('post_list', q=q, sort=sort, page=next_page) }}">[다음]</a>
+  {% else %}
+    <span class="pager-link is-disabled">[다음]</span>
+  {% endif %}
+</nav>
 {% endblock %}

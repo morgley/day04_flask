@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import os
-import sqlite3
 from datetime import datetime
 from pathlib import Path
+
+from libsql_client import dbapi2 as libsql
 
 import click
 from flask import (
@@ -30,10 +31,23 @@ CREATE TABLE IF NOT EXISTS posts (
 """
 
 
-def get_db() -> sqlite3.Connection:
+def _dict_row(cursor, row):
+    return {column[0]: row[index] for index, column in enumerate(cursor.description)}
+
+
+def get_db() -> libsql.Connection:
     if "db" not in g:
-        g.db = sqlite3.connect(current_app.config["DATABASE"])
-        g.db.row_factory = sqlite3.Row
+        database_url = current_app.config["DATABASE"]
+        auth_token = current_app.config.get("TURSO_AUTH_TOKEN")
+
+        connect_kwargs: dict[str, object] = {}
+        if database_url.startswith(("libsql://", "ws://", "wss://", "file:")):
+            connect_kwargs["uri"] = True
+        if database_url.startswith(("libsql://", "ws://", "wss://")) and auth_token:
+            connect_kwargs["auth_token"] = auth_token
+
+        g.db = libsql.connect(database_url, **connect_kwargs)
+        g.db.row_factory = _dict_row
     return g.db
 
 
@@ -57,10 +71,20 @@ def init_db_command() -> None:
 
 
 def create_app(test_config: dict | None = None) -> Flask:
-    app = Flask(__name__, instance_relative_config=True)
+    project_root = Path(__file__).resolve().parent
+    app = Flask(
+        __name__,
+        instance_relative_config=True,
+        root_path=str(project_root),
+        instance_path=str(project_root / "instance"),
+    )
     app.config.from_mapping(
         SECRET_KEY=os.environ.get("SECRET_KEY", "dev"),
-        DATABASE=os.environ.get("DATABASE", str(Path(app.instance_path) / "board.db")),
+        DATABASE=os.environ.get(
+            "TURSO_DATABASE_URL",
+            os.environ.get("DATABASE", str(Path(app.instance_path) / "board.db")),
+        ),
+        TURSO_AUTH_TOKEN=os.environ.get("TURSO_AUTH_TOKEN"),
     )
 
     if test_config is not None:
@@ -73,10 +97,64 @@ def create_app(test_config: dict | None = None) -> Flask:
     @app.get("/")
     def post_list():
         init_db()
-        posts = get_db().execute(
-            "SELECT id, title, content, created_at FROM posts ORDER BY id DESC"
+
+        q = request.args.get("q", "").strip()
+        raw_sort = request.args.get("sort", "latest")
+        sort_options = {
+            "latest": "ORDER BY id DESC",
+            "oldest": "ORDER BY id ASC",
+            "title": "ORDER BY title COLLATE NOCASE ASC, id DESC",
+        }
+        sort = raw_sort if raw_sort in sort_options else "latest"
+
+        raw_page = request.args.get("page", "1")
+        try:
+            page = int(raw_page)
+        except (TypeError, ValueError):
+            page = 1
+
+        if page < 1:
+            page = 1
+
+        per_page = 10
+        db = get_db()
+
+        where_sql = ""
+        params: list[str] = []
+        if q:
+            where_sql = "WHERE title LIKE ? OR content LIKE ?"
+            like = f"%{q}%"
+            params = [like, like]
+
+        total_count = db.execute(
+            f"SELECT COUNT(*) AS count FROM posts {where_sql}",
+            tuple(params),
+        ).fetchone()["count"]
+        total_pages = max(1, (total_count + per_page - 1) // per_page)
+
+        if page > total_pages:
+            page = total_pages
+
+        offset = (page - 1) * per_page
+        posts = db.execute(
+            f"SELECT id, title, content, created_at FROM posts {where_sql} {sort_options[sort]} LIMIT ? OFFSET ?",
+            tuple([*params, per_page, offset]),
         ).fetchall()
-        return render_template("post_list.html", posts=posts)
+
+        return render_template(
+            "post_list.html",
+            posts=posts,
+            page=page,
+            total_pages=total_pages,
+            has_prev=page > 1,
+            has_next=page < total_pages,
+            prev_page=page - 1,
+            next_page=page + 1,
+            q=q,
+            sort=sort,
+            is_search=bool(q),
+            no_results=bool(q) and total_count == 0,
+        )
 
     @app.get("/posts/new")
     def post_new():
