@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: flask-board
+    env: python
+    plan: free
+    buildCommand: pip install -r my_board/requirements.txt
+    startCommand: gunicorn --chdir my_board "app:create_app()" --bind 0.0.0.0:$PORT
+    envVars:
+      - key: SECRET_KEY
+        sync: false
+      - key: DATABASE
+        value: /var/data/board.db
+      - key: PYTHON_VERSION
+        value: 3.12.3
+    disk:
+      name: flask-board-data
+      mountPath: /var/data
+      sizeGB: 1
