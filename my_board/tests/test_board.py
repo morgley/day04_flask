@@ -17,7 +17,7 @@ def _seed_post(app, title="First", content="Body"):
             (title, content, datetime.now().strftime("%Y-%m-%d %H:%M:%S")),
         )
         db.commit()
-        return db.execute("SELECT id FROM posts ORDER BY id DESC LIMIT 1").fetchone()["id"]
+        return db.execute("SELECT id FROM posts ORDER BY id DESC LIMIT 1").fetchone()[0]
 
 
 def _extract_post_titles(html):
@@ -371,8 +371,8 @@ def test_edit_post_invalid_input_does_not_change_stored_post(client, app):
             (post_id,),
         ).fetchone()
 
-    assert row["title"] == "Original Title"
-    assert row["content"] == "Original Content"
+    assert row[0] == "Original Title"
+    assert row[1] == "Original Content"
 
 
 def test_delete_post_removes_record_and_redirects(client, app):

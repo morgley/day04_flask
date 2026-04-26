@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from libsql_client import dbapi2 as libsql
+import libsql
 
 import click
 from flask import (
@@ -31,23 +31,24 @@ CREATE TABLE IF NOT EXISTS posts (
 """
 
 
-def _dict_row(cursor, row):
+def _row_to_dict(cursor, row):
+    if row is None:
+        return None
     return {column[0]: row[index] for index, column in enumerate(cursor.description)}
 
 
-def get_db() -> libsql.Connection:
+def get_db():
     if "db" not in g:
         database_url = current_app.config["DATABASE"]
         auth_token = current_app.config.get("TURSO_AUTH_TOKEN")
 
-        connect_kwargs: dict[str, object] = {}
-        if database_url.startswith(("libsql://", "ws://", "wss://", "file:")):
-            connect_kwargs["uri"] = True
-        if database_url.startswith(("libsql://", "ws://", "wss://")) and auth_token:
-            connect_kwargs["auth_token"] = auth_token
+        if database_url.startswith("libsql://"):
+            g.db = libsql.connect(database=database_url, auth_token=auth_token)
+        else:
+            g.db = libsql.connect(database_url)
 
-        g.db = libsql.connect(database_url, **connect_kwargs)
-        g.db.row_factory = _dict_row
+        if hasattr(g.db, "row_factory"):
+            g.db.row_factory = _row_to_dict
     return g.db
 
 
@@ -126,20 +127,22 @@ def create_app(test_config: dict | None = None) -> Flask:
             like = f"%{q}%"
             params = [like, like]
 
-        total_count = db.execute(
+        total_count_row = db.execute(
             f"SELECT COUNT(*) AS count FROM posts {where_sql}",
             tuple(params),
-        ).fetchone()["count"]
+        ).fetchone()
+        total_count = total_count_row[0]
         total_pages = max(1, (total_count + per_page - 1) // per_page)
 
         if page > total_pages:
             page = total_pages
 
         offset = (page - 1) * per_page
-        posts = db.execute(
+        posts_cursor = db.execute(
             f"SELECT id, title, content, created_at FROM posts {where_sql} {sort_options[sort]} LIMIT ? OFFSET ?",
             tuple([*params, per_page, offset]),
-        ).fetchall()
+        )
+        posts = [_row_to_dict(posts_cursor, row) for row in posts_cursor.fetchall()]
 
         return render_template(
             "post_list.html",
@@ -197,10 +200,11 @@ def create_app(test_config: dict | None = None) -> Flask:
     @app.get("/posts/<int:post_id>/edit")
     def post_edit(post_id: int):
         init_db()
-        post = get_db().execute(
+        post_cursor = get_db().execute(
             "SELECT id, title, content, created_at FROM posts WHERE id = ?",
             (post_id,),
-        ).fetchone()
+        )
+        post = _row_to_dict(post_cursor, post_cursor.fetchone())
         if post is None:
             abort(404)
         return render_template(
@@ -214,8 +218,8 @@ def create_app(test_config: dict | None = None) -> Flask:
     @app.post("/posts/<int:post_id>/edit")
     def post_update(post_id: int):
         init_db()
-        post = get_db().execute("SELECT id FROM posts WHERE id = ?", (post_id,)).fetchone()
-        if post is None:
+        post_row = get_db().execute("SELECT id FROM posts WHERE id = ?", (post_id,)).fetchone()
+        if post_row is None:
             abort(404)
 
         title = request.form.get("title", "").strip()
@@ -246,8 +250,8 @@ def create_app(test_config: dict | None = None) -> Flask:
     def post_delete(post_id: int):
         init_db()
         db = get_db()
-        post = db.execute("SELECT id FROM posts WHERE id = ?", (post_id,)).fetchone()
-        if post is None:
+        post_row = db.execute("SELECT id FROM posts WHERE id = ?", (post_id,)).fetchone()
+        if post_row is None:
             abort(404)
 
         db.execute("DELETE FROM posts WHERE id = ?", (post_id,))
@@ -257,10 +261,11 @@ def create_app(test_config: dict | None = None) -> Flask:
     @app.get("/posts/<int:post_id>")
     def post_detail(post_id: int):
         init_db()
-        post = get_db().execute(
+        post_cursor = get_db().execute(
             "SELECT id, title, content, created_at FROM posts WHERE id = ?",
             (post_id,),
-        ).fetchone()
+        )
+        post = _row_to_dict(post_cursor, post_cursor.fetchone())
         if post is None:
             abort(404)
         return render_template("post_detail.html", post=post)
